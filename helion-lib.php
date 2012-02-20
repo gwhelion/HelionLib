@@ -4,6 +4,7 @@
  * 
  * Wersja: 1.0.0
  * Źródła biblioteki: https://github.com/gwhelion/HelionLib
+ * Dokumentacja: https://github.com/gwhelion/HelionLib/wiki
  * 
  * Autor: Paweł Pela (paulpela.com, pawel@paulpela.com)
  * Licencja: GPL2
@@ -119,6 +120,9 @@ class HelionLib {
     
     /**
      * Zwraca link do strony głównej z numerem partnera.
+     * 
+     * @param string $ksiegarnia helion|onepress itd.
+     * @return string URL
      */
     public function link_do_glownej($ksiegarnia = 'helion') {
 
@@ -133,7 +137,8 @@ class HelionLib {
     }
 
     /**
-     * ext
+     * Walidator księgarni.
+     * 
      */
     public function val_ksiegarnia($ksiegarnia) {
 
@@ -371,14 +376,31 @@ class HelionLib {
         return 'http://' . $ksiegarnia . '.pl/page/' . $partner . '/katalog/' . $seria . '.html.htm';
     }
     
+    /**
+     *
+     * @param string $kategoria 28,0,0
+     * @return bool
+     */
     public function val_kategoria($kategoria) {
-        // TODO
-        return true;
+        if($this->match_kategoria($kategoria)) {
+            return true;
+        } else {
+            $this->error = "Walidacja identyfikatora nie powiodła się.";
+            return false;
+        }
     }
     
+    private function match_kategoria($kategoria) {
+        return preg_match('/^[0-9,]$/', $kategoria);
+    }
+    
+    /**
+     *
+     * @param string $seria 28,0,0
+     * @return bool
+     */
     public function val_seria($seria) {
-        // TODO
-        return true;
+        return $this->val_kategoria($seria);
     }
     
     /**
@@ -424,8 +446,6 @@ class HelionLib {
      * @param int $cyfra Dodatkowy parametr, pozwalający dokładniej śledzić konwersje. Zakres 0-255.
      * @param string $partner Identyfikator partnera. Domyślnie pobierany z $this->partner
      * @return string URL z numerem partnera, dodający wybraną książkę do koszyka. 
-      * 
-      * TODO - usunąć partnera ze wszystkich tego typu funkcji - nowy partner = nowy obiekt
      */
     public function link_do_koszyka($ksiegarnia, $ident, $cyfra = null) {
         if(!$this->val_ksiegarnia($ksiegarnia))
@@ -604,8 +624,6 @@ class HelionLib {
         if(!$this->val_ident($ident))
             return false;
         
-//        if($this->cache_ksiazka[0]['ksiegarnia'] == $ksiegarnia && $this->cache_ksiazka[0]['ident'] == $ident)
-//            return $this->cache_ksiazka[1];
         if(!empty($this->cache_ksiazki_{$ksiegarnia}[$ident]))
             return $this->cache_ksiazki_{$ksiegarnia}[$ident];
         
@@ -615,9 +633,6 @@ class HelionLib {
             $ksiazka = $this->parser_xml_ksiazka($xml, $ksiegarnia);
             
             if(is_array($ksiazka)) {
-//                $this->cache_ksiazka[0]['ksiegarnia'] = $ksiegarnia;
-//                $this->cache_ksiazka[0]['ident'] = $ident;
-//                $this->cache_ksiazka[1] = $ksiazka;
                 $this->cache_ksiazki_{$ksiegarnia}[$ident] = $ksiazka;
                 
                 return $ksiazka;
@@ -923,8 +938,11 @@ class HelionLib {
             return null;
         }
         
-        // TODO
-        // <ebook_formaty>
+        if(isset ($ksiazka['ebook_formaty'])) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
     
