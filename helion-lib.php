@@ -65,6 +65,7 @@ class HelionLib {
     private $cache_ksiazki_sensus;
     private $cache_ksiazki_septem;
     private $cache_ksiazki_ebookpoint;
+    private $cache_ksiazki_bezdroza;
     
     /**
      *
@@ -87,6 +88,7 @@ class HelionLib {
         "sensus",
         "septem",
         "ebookpoint",
+        "bezdroza",
     );
     
     private $rozmiary_okladek = array(
