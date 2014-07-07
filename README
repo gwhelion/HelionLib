@@ -9,3 +9,48 @@ Biblioteka powstała, aby ułatwić programistom korzystanie z API Programu Part
 Biblioteka posiada wbudowane mechanizmy cache, które zapobiegają wysyłaniu wielokrotnych zapytań o te same dane i znacząco odciążają aplikację.
 
 Support oferujemy na oficjalnym forum Programu Partnerskiego: http://program-partnerski.helion.pl/forum/
+
+Przykłady użycia:
+
+1. Książka dnia
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>HelionLib</title>
+</head>
+<body>
+<?php
+
+include("helion-lib.php");
+
+$helionLib = new HelionLib("1234k");
+
+$ksiazkaDnia = $helionLib->ksiazka_dnia("helion");
+$ksiazka = $helionLib->ksiazka("helion", $ksiazkaDnia["ident"]);
+$link_do_koszyka = $helionLib->link_do_koszyka("helion", $ksiazkaDnia["ident"]);
+$link_do_ksiazki = $helionLib->link_do_ksiazki("helion", $ksiazkaDnia["ident"]);
+
+$okladkaDnia = $helionLib->okladka($ksiazka, "120x156");
+
+?>
+<table>
+<tr>
+<td>
+<img src="<?php echo $okladkaDnia?>"/>
+</td>
+<td>
+<a href="<?php echo $link_do_ksiazki?>" title="<?php echo $ksiazka["tytul"][0]?>"><?php echo $ksiazka["tytul"][0]?></a>
+<br />
+<?php echo $ksiazka["autor"]?>
+<br />
+Cena: <?php echo $ksiazka["cenadetaliczna"]?>
+<br />
+<a href="<?php echo $link_do_koszyka?>" title="Dodaj do koszyka">Do koszyka</a>
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+
