@@ -424,13 +424,10 @@ class HelionLib {
         if($cyfra && !$this->val_cyfra($cyfra))
             return false;
         
-        if($partner && !$this->val_partner($partner))
-            $partner = $this->get_partnerid();
+        $partner = $this->partner;
         
-        if(!$partner) {
-            $this->error = 'Nie można było pobrać identyfikatora partnera.';
+        if(!$this->val_partner($partner))
             return false;
-        }
         
         if($cyfra) {
             return 'http://' . $ksiegarnia . '.pl/view/' . $partner . '/' . $cyfra . '/' . $ident . '.htm';
