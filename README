@@ -2,10 +2,10 @@ Biblioteka PHP dla Programu Partnerskiego GW Helion
 
 http://program-partnerski.helion.pl
 
-Prosimy o zapisywanie siê na kana³ RSS z powiadomieniami o aktualizacjach:
+Prosimy o zapisywanie siÄ™ na kanaÅ‚ RSS z powiadomieniami o aktualizacjach:
 
-Biblioteka powsta³a, aby u³atwiæ programistom korzystanie z API Programu Partnerskiego Helion. Dziêki HelionLib mo¿esz szybko uzyskaæ potrzebne dane bez konieczno¶ci poznawania szczegó³ów komunikacji miêdzy u¿ytkownikiem a serwerami Helionaoraz bez konieczno¶ci ¶ledzenia zmian w samym API.
+Biblioteka powstaÅ‚a, aby uÅ‚atwiÄ‡ programistom korzystanie z API Programu Partnerskiego Helion. DziÄ™ki HelionLib moÅ¼esz szybko uzyskaÄ‡ potrzebne dane bez koniecznoÅ›ci poznawania szczegÃ³Å‚Ã³w komunikacji miÄ™dzy uÅ¼ytkownikiem a serwerami Heliona oraz bez koniecznoÅ›ci Å›ledzenia zmian w samym API.
 
-Biblioteka posiada wbudowane mechanizmy cache, które zapobiegaj± wysy³aniu wielokrotnych zapytañ o te same dane i znacz±co odci±¿aj± aplikacjê.
+Biblioteka posiada wbudowane mechanizmy cache, ktÃ³re zapobiegajÄ… wysyÅ‚aniu wielokrotnych zapytaÅ„ o te same dane i znaczÄ…co odciÄ…Å¼ajÄ… aplikacjÄ™.
 
 Support oferujemy na oficjalnym forum Programu Partnerskiego: http://program-partnerski.helion.pl/forum/
