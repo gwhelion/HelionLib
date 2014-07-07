@@ -110,7 +110,7 @@ class HelionLib {
      * @param string $partner Identyfikator partnera, np. 1234a
      */
     public function __construct($partner) {
-        if($this->val_parnter($partner)) {
+        if($this->val_partner($partner)) {
             $this->partner = $partner;
         } else {
             $this->error = "Podanie numeru partnera jest obowiązkowe.";
@@ -129,7 +129,7 @@ class HelionLib {
         if(!$this->val_ksiegarnia($ksiegarnia))
             return false;
         
-        if(!$this->val_parnter($this->partner))
+        if(!$this->val_partner($this->partner))
             return false;
 
         return 'http://' . $ksiegarnia . '.pl/view/' . $this->partner;
@@ -153,7 +153,7 @@ class HelionLib {
     /**
      * Walidator identyfikatora partnera.
      */
-    public function val_parnter($partner) {
+    public function val_partner($partner) {
 
         if($this->match_partner($partner)) {
             return true;
@@ -176,7 +176,7 @@ class HelionLib {
     }
     
     public function set_partner($partner) {
-        if($this->val_parnter($partner)) {
+        if($this->val_partner($partner)) {
             $this->partner = $partner;
             return true;
         } else {
@@ -239,7 +239,7 @@ class HelionLib {
             
             $ksiegarnia = $ksiazka['ksiegarnia'];
             $ident = $ksiazka['ident'];
-            $rozmiar = funct_get_arg(1);
+            $rozmiar = func_get_arg(1);
         } else if($num_args == 1) {
             $ksiazka = func_get_arg(0);
             
@@ -291,7 +291,7 @@ class HelionLib {
         if(!$this->val_ksiegarnia($ksiegarnia))
             return false;
         
-        if($partnerid && !$this->val_parnter($partnerid)) {
+        if($partnerid && !$this->val_partner($partnerid)) {
             return false;
         } else if (!$partnerid) {
             $partnerid = $this->get_partnerid();
@@ -341,7 +341,7 @@ class HelionLib {
         if(!$this->val_kategoria($kategoria))
             return false;
         
-        if($partner && !$this->val_parnter($partner))
+        if($partner && !$this->val_partner($partner))
             return false;
         
         if(!$partner)
@@ -367,7 +367,7 @@ class HelionLib {
         if(!$this->val_seria($seria))
             return false;
         
-        if($partner && !$this->val_parnter($partner))
+        if($partner && !$this->val_partner($partner))
             return false;
         
         if(!$partner)
@@ -422,7 +422,7 @@ class HelionLib {
         if($cyfra && !$this->val_cyfra($cyfra))
             return false;
         
-        if($partner && !$this->val_parnter($partner))
+        if($partner && !$this->val_partner($partner))
             $partner = $this->get_partnerid();
         
         if(!$partner) {
@@ -459,7 +459,7 @@ class HelionLib {
         
         $partner = $this->partner;
         
-        if(!$this->val_parnter($partner))
+        if(!$this->val_partner($partner))
             return false;
         
         if($cyfra) {
@@ -502,7 +502,7 @@ class HelionLib {
         if(!$this->val_kategoria($kategoria))
             return false;
         
-        if(!$this->val_parnter($this->partner))
+        if(!$this->val_partner($this->partner))
                 return false;
         
         return 'http://' . $ksiegarnia . '.pl/rss/index.cgi?k=' . $kategoria . '&nr=' . $this->partner;
@@ -522,7 +522,7 @@ class HelionLib {
         if(!$this->val_seria($seria))
             return false;
         
-        if(!$this->val_parnter($this->partner))
+        if(!$this->val_partner($this->partner))
                 return false;
         
         return 'http://' . $ksiegarnia . '.pl/rss/index.cgi?s=' . $seria . '&nr=' . $this->partner;
