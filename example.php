@@ -1,19 +1,3 @@
-Biblioteka PHP dla Programu Partnerskiego GW Helion
-
-http://program-partnerski.helion.pl
-
-Prosimy o zapisywanie się na kanał RSS z powiadomieniami o aktualizacjach:
-
-Biblioteka powstała, aby ułatwić programistom korzystanie z API Programu Partnerskiego Helion. Dzięki HelionLib możesz szybko uzyskać potrzebne dane bez konieczności poznawania szczegółów komunikacji między użytkownikiem a serwerami Heliona oraz bez konieczności śledzenia zmian w samym API.
-
-Biblioteka posiada wbudowane mechanizmy cache, które zapobiegają wysyłaniu wielokrotnych zapytań o te same dane i znacząco odciążają aplikację.
-
-Support oferujemy na oficjalnym forum Programu Partnerskiego: http://program-partnerski.helion.pl/forum/
-
-Przykłady użycia:
-
-1. Książka dnia
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -59,4 +43,3 @@ Przykłady użycia:
 
     </body>
 </html>
-

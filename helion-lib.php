@@ -2,11 +2,11 @@
 /*
  * Biblioteka PHP dla Programu Partnerskiego Grupy Wydawniczej Helion
  * 
- * Wersja: 1.0.0
+ * Wersja: 1.0.1
  * Źródła biblioteki: https://github.com/gwhelion/HelionLib
  * Dokumentacja: https://github.com/gwhelion/HelionLib/wiki
  * 
- * Autor: Paweł Pela (paulpela.com, pawel@paulpela.com)
+ * Autor: Paweł Pela (paulpela.com, pawel@paulpela.com), Marek Dzimiera (marcus.dzimiera@gmail.com)
  * Licencja: GPL2
  * 
  * Więcej informacji: http://program-partnerski.helion.pl
@@ -66,6 +66,7 @@ class HelionLib {
     private $cache_ksiazki_septem;
     private $cache_ksiazki_ebookpoint;
     private $cache_ksiazki_bezdroza;
+    private $cache_ksiazki_videopoint;
     
     /**
      *
@@ -89,6 +90,7 @@ class HelionLib {
         "septem",
         "ebookpoint",
         "bezdroza",
+        "videopoint",
     );
     
     private $rozmiary_okladek = array(
@@ -100,6 +102,14 @@ class HelionLib {
         "125x163",
         "181x236",
         "326x466",
+    );
+    
+    private static $_type = array(
+        1 => 'Książka',
+        2 => 'Ebook',
+        3 => 'Audiobook mp3',
+        4 => 'Audiocd mp3',
+        8 => 'Wideokurs',
     );
     
     private $partner;
@@ -268,7 +278,7 @@ class HelionLib {
         
         $ident = $this->strip_ident($ident);
         
-        return "http://" . $ksiegarnia . ".pl/okladki/" . $rozmiar . "/" . $ident . ".jpg";
+        return "https://static01.helion.com.pl/global/okladki/" . $rozmiar . "/" . $ident . ".jpg";
     }
     
     /**
@@ -306,7 +316,7 @@ class HelionLib {
     }
     
     /**
-     * Zwraca link do pliku XML z listą kategorii.
+     * Zwraca link do pliku XML z listą serii wydawniczych.
      * 
      */
     public function lista_kategorii_xml($ksiegarnia = 'helion') {
@@ -317,7 +327,7 @@ class HelionLib {
     }
     
     /**
-     * Zwraca link do pliku XML z listą serii wydawniczych.
+     * Zwraca link do pliku XML z listą kategorii.
      */
     public function lista_serii_xml($ksiegarnia = 'helion') {
         if(!$this->val_ksiegarnia($ksiegarnia))
@@ -625,7 +635,7 @@ class HelionLib {
         
         if(!empty($this->cache_ksiazki_{$ksiegarnia}[$ident]))
             return $this->cache_ksiazki_{$ksiegarnia}[$ident];
-        
+
         $xml = $this->get_xml('http://' . $ksiegarnia . '.pl/plugins/new/xml/ksiazka.cgi?ident=' . $ident);
         
         if($xml) {
@@ -642,6 +652,45 @@ class HelionLib {
         } else {
             return false;
         }
+    }
+    
+    /**
+     * 
+     * Zwraca typ pozycji
+     * 
+     * @param type $type
+     * @return type
+     */
+    public static function getType($type){
+        
+        return self::$_type["$type"];
+        
+    }
+    
+    /**
+     * 
+     * Zwraca typ pozycji po identyfikatorze
+     * 
+     * @param type $ident
+     * @return type
+     */
+    public static function getTypeByIdent($ident) {
+        
+        $type = 1;
+        if (preg_match('/\_ebook$/i', $ident)) {
+            $type = 2;
+        } elseif (preg_match('/\_a$/i', $ident)) {
+            $type = 3;
+        } elseif (preg_match('/\_3$/i', $ident)) {
+            $type = 4;
+        } elseif (preg_match('/\_w$/i', $ident)) {
+            $type = 8;
+        } else {
+            $type = 1;
+        }
+        
+        return self::$_type["$type"];
+        
     }
     
     /**
@@ -877,18 +926,21 @@ class HelionLib {
      * @return array 
      */
     public function ksiazka_dnia($ksiegarnia) {
-        if(!$this->val_ksiegarnia($ksiegarnia))
+        if (!$this->val_ksiegarnia($ksiegarnia)) {
             return false;
+        }
         
-        if(isset($this->cache_ksiazka_dnia[$ksiegarnia]))
-                return $this->cache_ksiazka_dnia[$ksiegarnia];
+        if (isset($this->cache_ksiazka_dnia[$ksiegarnia])) {
+            return $this->cache_ksiazka_dnia[$ksiegarnia];
+        }
         
         $xml = $this->get_xml('http://' . $ksiegarnia . '.pl/plugins/xml/lista.cgi?pd=1');
         
         $ksiazka_dnia = $this->parser_xml_ksiazka_dnia($xml);
         
-        if(!$ksiazka_dnia)
+        if (!$ksiazka_dnia) {
             return false;
+        }
         
         $this->cache_ksiazka_dnia[$ksiegarnia] = $ksiazka_dnia;
         
@@ -897,9 +949,14 @@ class HelionLib {
     
     private function parser_xml_ksiazka_dnia($xml) {
         $a = json_decode(json_encode((array) $xml),1);
-        
+
         if(is_array($a)) {
-            $a = $a['item']['@attributes'];
+            if (count($a['item']) > 1) {
+                $a = $a['item'][rand(0, count($a['item'])-1)]['@attributes'];
+            } else {
+                $a = $a['item']['@attributes'];
+            }
+            
             $a['ident'] = strtolower($a['ident']);
             
             return $a;
